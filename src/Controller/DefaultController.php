@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Uploads;
 use App\Form\UploadsType;
+use App\Service\UploadService;
 
 class DefaultController extends AbstractController
 {
@@ -24,27 +25,35 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="home_page")
      */
-    public function homepage(Request $request): Response
+    public function homepage(Request $request, UploadService $uploadService): Response
 
     {
-        $Uploads = new Uploads();
+        $uploads = new Uploads();
 
 
-        $form = $this->createForm(UploadsType::class, $Uploads);
+        $form = $this->createForm(UploadsType::class, $uploads);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
-            $Uploads = $form->getData();
 
-            // ... perform some action, such as saving the task to the database
+            $files = $form->get('files')->getData();
+            if ($files) {
+                $files = $form->get('files')->getData();
+                $fileName = $uploadService->upload($files);
+
+                var_dump($fileName);
+                die;
+            }
+
+
 
             return $this->redirectToRoute('home_page');
         }
 
+
+
         return $this->render('default/index.html.twig', [
-            'form' =>  $form,
+            'form' =>  $form->createView(),
         ]);
     }
 }

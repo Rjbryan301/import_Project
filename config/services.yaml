@@ -25,4 +25,4 @@ services:
 
     App\Service\UploadService:
         arguments:
-            $targetDirectory: '%brochures_directory%'
+            $targetDirectory: '%kernel.project_dir%/public/Files'

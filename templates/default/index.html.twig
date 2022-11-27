@@ -4,14 +4,13 @@
 {% endblock %}
 
 {% block body %}
-	
-	<div class="example-wrapper">
-		<h1>Hello</h1>
 
-		This friendly message is coming from:
-		{# {{form(form_start)}} #}
-		{# {{form_start(form)}}
-		{{form_end(form)}} #}
-		{{form(form)}}
+	<div class="example-wrapper">
+		<h1>Bienvenu dans la page de telechargement</h1>
+
+		{{form_start(form)}}
+		{{form_row(form.files)}}
+		{{form_row(form.save)}}
+		{{form_end(form)}}
 	</div>
 {% endblock %}
